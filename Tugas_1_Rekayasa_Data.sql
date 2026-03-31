@@ -36,7 +36,7 @@ HAVING COUNT(*) > 1;
 -- Number 4
 
 -- Number 5
-
+-
 -- Number 6
 
 -- Number 7 untuk prodi
@@ -151,7 +151,18 @@ JOIN tugas1.mata_kuliah mk ON k.KodeMK = mk.KodeMK
 WHERE m.Prodi <> mk.Prodi;
 
 -- Number 10
-
+SELECT 
+    m.NPM, 
+    m.Nama, 
+    COUNT(k.KodeMK) AS jumlah_mata_kuliah
+FROM 
+    mahasiswa m
+LEFT JOIN 
+    krs k ON m.NPM = k.NPM
+GROUP BY 
+    m.NPM, 
+    m.Nama;
+    
 -- Number 11
 
 -- Number 12
@@ -185,7 +196,38 @@ GROUP BY m.NPM, m.Nama
 HAVING MIN(mk.SKS) = 3 AND MAX(mk.SKS) = 3;
 
 -- Number 15
-
+SELECT 
+    m.NPM, 
+    m.Nama, 
+    m.IPK,
+    COUNT(k.KodeMK) AS jumlah_mata_kuliah
+FROM 
+    mahasiswa m
+JOIN 
+    krs k ON m.NPM = k.NPM
+GROUP BY 
+    m.NPM, 
+    m.Nama, 
+    m.IPK
+HAVING 
+    COUNT(k.KodeMK) = 1;
+    
+SELECT 
+    m.NPM, 
+    m.Nama, 
+    m.IPK,
+    COUNT(k.KodeMK) AS jumlah_mata_kuliah
+FROM 
+    mahasiswa m
+JOIN 
+    krs k ON m.NPM = k.NPM
+GROUP BY 
+    m.NPM, 
+    m.Nama, 
+    m.IPK
+HAVING 
+    COUNT(k.KodeMK) = 2;
+    
 -- Number 16
 
 -- Number 17
@@ -218,3 +260,12 @@ SELECT
 -- Number 19
 -
 -- Number 20
+SELECT 
+    Angkatan, 
+    AVG(IPK) AS rata_rata_ipk
+FROM 
+    mahasiswa
+GROUP BY 
+    Angkatan
+ORDER BY 
+    Angkatan ASC;

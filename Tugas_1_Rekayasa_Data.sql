@@ -34,11 +34,16 @@ GROUP BY NPM, KodeMK, Semester
 HAVING COUNT(*) > 1;
 
 -- Number 4
-
+-
 -- Number 5
 -
 -- Number 6
-
+SELECT 
+    AVG(IPK) AS rata_rata_IPK,
+    MAX(IPK) AS nilai_max_IPK,
+    MIN(IPK) AS nilai_min_IPK,
+    STDDEV(IPK) AS standar_deviasi_IPK
+FROM `tugas-1-rekdat`.mahasiswa;
 -- Number 7 untuk prodi
 SELECT 
     Prodi, 
@@ -164,7 +169,19 @@ GROUP BY
     m.Nama;
     
 -- Number 11
-
+SELECT 
+    mk.NamaMK, 
+    COUNT(k.NPM) AS Jumlah_Mahasiswa
+FROM 
+    mata_kuliah AS mk
+JOIN 
+    krs AS k ON mk.KodeMK = k.KodeMK
+GROUP BY 
+    mk.NamaMK
+HAVING 
+    COUNT(k.NPM) >= 3;
+    
+    
 -- Number 12
 SELECT DISTINCT mahasiswa.Nama
 FROM mahasiswa
@@ -229,7 +246,28 @@ HAVING
     COUNT(k.KodeMK) = 2;
     
 -- Number 16
-
+SELECT 
+    mk.SKS, 
+    AVG(CASE 
+        WHEN k.Nilai = 'A'  THEN 4.0
+        WHEN k.Nilai = 'A-' THEN 3.7
+        WHEN k.Nilai = 'B+' THEN 3.3
+        WHEN k.Nilai = 'B'  THEN 3.0
+        WHEN k.Nilai = 'B-' THEN 2.7
+        WHEN k.Nilai = 'C+' THEN 2.3
+        WHEN k.Nilai = 'C'  THEN 2.0
+        ELSE 0 
+    END) AS Rata_Rata_Nilai
+FROM 
+    krs k
+JOIN 
+    mata_kuliah mk ON k.KodeMK = mk.KodeMK
+GROUP BY 
+    mk.SKS
+ORDER BY 
+    mk.SKS DESC;
+    
+    
 -- Number 17
 SELECT 
     (COUNT(CASE WHEN t1.jml_mk > t2.ref_mk THEN 1 END) * 100.0 / (SELECT COUNT(*) FROM mahasiswa)) AS Persentase

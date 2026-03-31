@@ -1,7 +1,7 @@
 -- Tugas 1 Rekayasa Data
 
 -- Number 1
-
+-
 -- Number 2
 
 -- Number 3
@@ -27,6 +27,15 @@ WHERE IPK > (
 );
 
 -- Number 9
+SELECT *
+FROM tugas1.mahasiswa m
+JOIN tugas1.krs k ON m.NPM = k.NPM
+JOIN tugas1.mata_kuliah mk ON k.KodeMK = mk.KodeMK;
+SELECT m.NPM
+FROM tugas1.mahasiswa m
+JOIN tugas1.krs k ON m.NPM = k.NPM
+JOIN tugas1.mata_kuliah mk ON k.KodeMK = mk.KodeMK
+WHERE m.Prodi <> mk.Prodi;
 
 -- Number 10
 
@@ -44,6 +53,12 @@ WHERE NPM NOT IN (
 );
 
 -- Number 14
+SELECT m.Nama
+FROM tugas1.mahasiswa m
+JOIN tugas1.krs k ON m.NPM = k.NPM
+JOIN tugas1.mata_kuliah mk ON k.KodeMK = mk.KodeMK
+GROUP BY m.NPM, m.Nama
+HAVING MIN(mk.SKS) = 3 AND MAX(mk.SKS) = 3;
 
 -- Number 15
 
@@ -66,5 +81,5 @@ SELECT
 ) AS proporsi_lintas_prodi;
 
 -- Number 19
-
+-
 -- Number 20

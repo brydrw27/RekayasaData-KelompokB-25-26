@@ -38,17 +38,16 @@ SET genre_text =
 UPDATE music_users
 SET country = 
     CASE 
-        -- POP (termasuk indie pop, pop indonesia, dll)
+
         WHEN country LIKE '%id%'
 			OR country LIKE '%Indonesia%'
             OR country LIKE '%ID' THEN 'ID'
 
-        -- ROCK (alt rock, alternative rock, rock alternatif, dll)
+
         WHEN country LIKE '%MY%' THEN 'MY'
 
         WHEN country LIKE '%SG%' THEN 'SG'
 
-        -- OTHER (sisanya)
         ELSE 'other'
     END;
 -- =========================

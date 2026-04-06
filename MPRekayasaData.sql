@@ -57,7 +57,7 @@ UPDATE music_listening_logs
 SET event_type = 
     CASE
         WHEN LOWER(REPLACE(REPLACE(TRIM(event_type), '_', ' '), '-', ' ')) IN 
-             ('play', 'Play', 'PLAY_SONG', 'listen', 'start')
+             ('play', 'Play', 'PLAY SONG', 'listen', 'start')
         THEN 'play'
         ELSE 'other'
     END;

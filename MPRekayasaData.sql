@@ -118,3 +118,22 @@ FROM clean_logs
 WHERE event_type = 'play'
 GROUP BY artist_name
 ORDER BY total_play DESC;
+
+-- 3. Distribusi waktu (per jam)
+SELECT HOUR(listen_time) AS jam, COUNT(*) AS jumlah
+FROM clean_logs
+WHERE event_type = 'play'
+GROUP BY jam
+ORDER BY jam;
+
+-- 4. User paling aktif
+SELECT username, COUNT(*) AS total_activity
+FROM clean_logs
+GROUP BY username
+ORDER BY total_activity DESC;
+
+-- 5. Aktivitas tidak wajar
+SELECT *
+FROM clean_logs
+WHERE duration_seconds <= 5 
+   OR duration_seconds > 3600;

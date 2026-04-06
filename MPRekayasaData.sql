@@ -6,7 +6,7 @@ USE spotify;
 SET SQL_SAFE_UPDATES = 0;
 
 -- =========================
--- 1. STANDARDISASI GENRE
+-- 1. STANDARDISASI GENRE DAN COUNTRY
 -- =========================
 -- step 1: lowercase + bersihin dash/strip biar konsisten
 UPDATE music_songs
@@ -35,7 +35,22 @@ SET genre_text =
         -- OTHER (sisanya)
         ELSE 'other'
     END;
+UPDATE music_users
+SET country = 
+    CASE 
+        -- POP (termasuk indie pop, pop indonesia, dll)
+        WHEN country LIKE '%id%'
+			OR country LIKE '%Indonesia%'
+            OR country LIKE '%ID' THEN 'ID'
 
+        -- ROCK (alt rock, alternative rock, rock alternatif, dll)
+        WHEN country LIKE '%MY%' THEN 'MY'
+
+        WHEN country LIKE '%SG%' THEN 'SG'
+
+        -- OTHER (sisanya)
+        ELSE 'other'
+    END;
 -- =========================
 -- 2. NORMALISASI EVENT
 -- =========================
@@ -86,6 +101,7 @@ SELECT
     u.user_id,
     u.username,
     s.song_id,
+    u.country,
     s.title,
     s.artist_name,
     s.genre_text,

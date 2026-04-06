@@ -50,3 +50,26 @@ SET event_type =
     SELECT event_type, COUNT(*) 
 FROM music_listening_logs
 GROUP BY event_type;
+
+-- =========================
+-- 3. FIX TIMESTAMP (ANTI ERROR)
+-- =========================
+
+-- convert format campuran / dan -
+UPDATE music_listening_logs
+SET listen_timestamp = 
+    CASE
+        -- format: 2025/09/02 21:05:00
+        WHEN listen_timestamp LIKE '____/__/__ %' THEN 
+            STR_TO_DATE(listen_timestamp, '%Y/%m/%d %H:%i:%s')
+
+        -- format: 2025-09-02 21:05:00
+        WHEN listen_timestamp LIKE '____-__-__ %' THEN 
+            STR_TO_DATE(listen_timestamp, '%Y-%m-%d %H:%i:%s')
+
+        -- format: 03/09/2025 00:03
+        WHEN listen_timestamp LIKE '__/__/____ %' THEN 
+            STR_TO_DATE(listen_timestamp, '%d/%m/%Y %H:%i')
+
+        ELSE NULL
+    END;

@@ -73,3 +73,48 @@ SET listen_timestamp =
 
         ELSE NULL
     END;
+
+-- =========================
+-- 4. BUAT TABEL CLEAN
+-- =========================
+
+DROP TABLE IF EXISTS clean_logs;
+
+CREATE TABLE clean_logs AS
+SELECT 
+    l.log_id,
+    u.user_id,
+    u.username,
+    s.song_id,
+    s.title,
+    s.artist_name,
+    s.genre_text,
+    l.event_type,
+    l.listen_timestamp,
+    l.duration_seconds
+FROM music_listening_logs l
+JOIN music_users u ON l.user_name = u.username
+JOIN music_songs s ON l.song_title = s.title;
+
+-- =========================
+-- 🔍 CEK DATA
+-- =========================
+SELECT * FROM clean_logs;
+
+-- =========================
+-- 📊 JAWAB SOAL
+-- =========================
+
+-- 1. Genre paling sering diputar
+SELECT genre_text, COUNT(*) AS total_play
+FROM clean_logs
+WHERE event_type = 'play'
+GROUP BY genre_text
+ORDER BY total_play DESC;
+
+-- 2. Artis dengan pemutaran terbanyak
+SELECT artist_name, COUNT(*) AS total_play
+FROM clean_logs
+WHERE event_type = 'play'
+GROUP BY artist_name
+ORDER BY total_play DESC;
